@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>PomodoroTimer</title>
+    <link rel="stylesheet" href="main.css" type="text/css">
+</head>
+<body>
+    pm: <input type="number" id="pmTargetTime" value="27" style="width: 30px;"> min
+    sb: <input type="number" id="sbTargetTime" value="3" style="width: 30px;"> min
+    lb: <input type="number" id="lbTargetTime" value="13" style="width: 30px;"> min
+    <p>
+      <span id="HTMLStatus">pm</span>
+      <span id="HTMLTimer">00:00</span>
+    </p>
+    <p>
+        <input type="button" value="Start" id="startButton">
+        <input type="button" value="Stop" id="stopButton">
+        <input type="button" value="Reset" id="resetButton">
+    </p>
+    <p>
+        <label for="alermTargetTime">Alerm</label>
+        <input type="time" id="alermTargetTime" value="08:30">
+    </p>
+    <p>
+        Title: <input type="text" id="scaduleTitle">
+        予定pm: <input type="number" min="1" max="8" value="2" id="scadulePm">
+        <p>
+            <label for="scaduleMemo">Memo:</label>
+            <textarea id="scaduleMemo" rows="5" cols="33"></textarea>
+        </p>
+    </p>
+    <p>
+        <input type="button" id="addButton" value="Add Scadule">
+    </p>
+    <p>
+        <table id="scaduleTable">
+            <thead>
+                <tr>
+                    <th>削除</th>
+                    <th>タイトル</th>
+                    <th>済</th>
+                    <th>/</th>
+                    <th>予定</th>
+                    <th>メモ</th>
+            </thead>
+            <tbody></tbody>
+        </table>
+    <script src='content.js'></script>
+</body>
