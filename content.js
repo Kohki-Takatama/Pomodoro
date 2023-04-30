@@ -1,17 +1,23 @@
 const timerSound = new Audio('kitchen_timer1.mp3');
 timerSound.volume = 0.4;
+
 const HTMLTimer = document.getElementById("HTMLTimer");
 const HTMLStatus = document.getElementById("HTMLStatus");
+
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const resetButton = document.getElementById("resetButton");
+
 const HTMLAlermTargetTime = document.getElementById("alermTargetTime");
+
 const scaduleTitle = document.getElementById("scaduleTitle");
 const scadulePm = document.getElementById("scadulePm");
 const scaduleMemo = document.getElementById("scaduleMemo");
-const addButton = document.getElementById("addButton");
-const scaduleTable = document.getElementById("scaduleTable");
 
+const addButton = document.getElementById("addButton");
+const scaduleTableBody = document.getElementById("scaduleTableBody");
+
+//---------------------
 
 let alermTargetTime = HTMLAlermTargetTime.value;
 let pmTargetTime = document.getElementById("pmTargetTime").value*60;   //ポモドーロタイマーの時間
@@ -19,10 +25,10 @@ let sbTargetTime = document.getElementById("sbTargetTime").value*60;   //ShortBr
 let lbTargetTime = document.getElementById("lbTargetTime").value*60;   //LongBreakの時間
 const pmTagetCount = 4;   //lbまでのpm回数
 
-let thisTime = 0; //現在動作中のタイマー
+let thisTime = 0; //現在動作中のタイマーの時間
 let pmOrNot = 1; //true=pm felse=sb/lb
 let pmCount = 0;  //lbまでのpmカウント
-let startOrStop = 0;
+let startOrStop = 0; //タイマーが動いているか
 
 const timerSoundPlay = () => {
     timerSound.currentTime = 12;
@@ -31,11 +37,13 @@ const timerSoundPlay = () => {
 
 const timer = (targetTime) => {
     if(thisTime <= 0) {thisTime = targetTime}  //時間設定
-        thisTime -= 1;
-        HTMLTimer.innerHTML=String(Math.floor(thisTime/60)).padStart(2,"0") + ":" + String(thisTime%60).padStart(2,"0");
+
+    thisTime -= 1;
+    HTMLTimer.innerHTML=String(Math.floor(thisTime/60)).padStart(2,"0") + ":" + String(thisTime%60).padStart(2,"0");
+
     if(thisTime <= 0) { //タイマー終了時の処理
         if(pmOrNot) {pmCount = (pmCount+1)%pmTagetCount}
-        pmOrNot = (pmOrNot+1)%2 //pm判定の切り替え
+        pmOrNot = (pmOrNot+1)%2 //pmとbreakの切り替え
         timerSoundPlay();
     }
 }
@@ -73,26 +81,38 @@ const alerm = () => {
     //現在時刻＝予定時刻になったら音を再生。
 }
 
-const addScadule = () => {
-    const tr = scaduleTable.tBodies[0].insertRow(-1);
-    const tdDeleteButton = tr.insertCell(0);
-    const tdTitle = tr.insertCell(1);
-    const tdFpm = tr.insertCell(2);
-    const tdSlash = tr.insertCell(3);
-    const tdSpm = tr.insertCell(4);
-    const tdMemo = tr.insertCell(5);
-    tdDeleteButton.appendChild(document.createTextNode("Button"));
-    tdTitle.appendChild(document.createTextNode(scaduleTitle.value));
-    tdFpm.appendChild(document.createTextNode(0));
-    tdSlash.appendChild(document.createTextNode("/"));
-    tdSpm.appendChild(document.createTextNode(scadulePm.value));
-    tdMemo.appendChild(document.createTextNode(scaduleMemo.value));
+const createNewTr = () => {
+    const newTr = document.createElement('tr');
+
+    const newTdBtn = document.createElement('td');
+    newTdBtn.textContent = "✖"
+    newTdBtn.addEventListener('click', ()=> {newTr.remove()});
+
+    const newTdTitle = document.createElement('td');
+    newTdTitle.textContent = scaduleTitle.value;
+
+    const newTdFinishPm = document.createElement('td');
+    newTdFinishPm.textContent = "0";
+
+    const newTdScadulePm = document.createElement('td');
+    newTdScadulePm.textContent = scadulePm.value;
+
+    const newTdMemo = document.createElement('td');
+    newTdMemo.textContent = scaduleMemo.value;
+
+    newTr.appendChild(newTdBtn);
+    newTr.appendChild(newTdTitle);
+    newTr.appendChild(newTdFinishPm);
+    newTr.appendChild(newTdScadulePm);
+    newTr.appendChild(newTdMemo);
+
+    return newTr;
 }
 
 startButton.addEventListener('click', ()=>{startOrStop=1}, false);
 stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
 resetButton.addEventListener('click', ()=>{reset(0);}, false);
 HTMLAlermTargetTime.addEventListener('input', ()=>{alermTargetTime = HTMLAlermTargetTime.value;});
-addButton.addEventListener('click', addScadule, false);
+addButton.addEventListener('click', () => {scaduleTableBody.appendChild(createNewTr())}, false);
 setInterval(count, 1000);
 setInterval(alerm, 1000);
