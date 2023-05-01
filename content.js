@@ -1,6 +1,7 @@
 const inputPmTargetTime = document.getElementById("pmTargetTime");   
 const inputSbTargetTime = document.getElementById("sbTargetTime");   
 const inputLbTargetTime = document.getElementById("lbTargetTime"); 
+const inputLbTargetInterval = document.getElementById("lbTargetInterval"); 
 
 const timerSound = new Audio('kitchen_timer1.mp3');
 timerSound.volume = 0.4;
@@ -20,7 +21,7 @@ let alermTargetTime = 0 //inputAlermTargetTime.value;
 let pmTargetTime = inputPmTargetTime.value*60;   //ポモドーロタイマーの時間
 let sbTargetTime = inputSbTargetTime.value*60;   //ShortBreakの時間
 let lbTargetTime = inputLbTargetTime.value*60;   //LongBreakの時間
-const pmTagetCount = 4;   //lbまでのpm回数
+const pmTagetCount = inputLbTargetInterval;   //lbまでのpm回数
 
 let thisTime = 0; //現在動作中のタイマーの時間
 let pmOrNot = 1; //true=pm felse=sb/lb
