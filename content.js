@@ -21,7 +21,6 @@ const inputTimerSoundVolume = document.getElementById("timerSoundVolume");
 //---------------------Audio
 
 const timerSound = new Audio('kitchen_timer1.mp3');
-timerSound.volume = inputTimerSoundVolume.value;
 
 //---------------------let
 
@@ -98,20 +97,42 @@ const alerm = () => {
     //現在時刻＝予定時刻になったら音を再生。
 }
 
-const setValueAndSaveJson = (targetVar, targetElement) => {
-    //JSON.stringify()
+const setValueAndSaveJson = (targetElement) => { 
+    /*
+    json.targetVar ができるかどうかでだいぶ変わる。たぶんできない。
+    */
+    let jsonValue = JSON.parse();
+    switch(targetElement) {
+        case inputPmTargetTime:
+            break;
+        case inputSbTargetTime:
+            break;
+        case inputLbTargetTime:
+            break;
+        case inputLbTargetInterval:
+            break;
+        case inputTimerSoundVolume:
+            break;
+    }
+    JSON.stringify()
 }
 
 const readJsonAndSetValue = () => {
-    const jsonValue = {pmTargetTime:25, sbTargetTime:5, lbTargetTime:15, lbTargetInterval:4}//JSON.parse()
+    const jsonValue = {pmTargetTime:25, sbTargetTime:5, lbTargetTime:15, lbTargetInterval:4, TimerSoundVolume:0.4}//JSON.parse()
+    //----------------json to element
     inputPmTargetTime.value = jsonValue.pmTargetTime;
     inputSbTargetTime.value = jsonValue.sbTargetTime;
     inputLbTargetTime.value = jsonValue.lbTargetTime;
     inputLbTargetInterval.value = jsonValue.lbTargetInterval;
+
+    inputTimerSoundVolume.value = jsonValue.TimerSoundVolume;
+    //----------------element to var
     pmTargetTime = inputPmTargetTime.value*60;
     sbTargetTime = inputSbTargetTime.value*60;
     lbTargetTime = inputLbTargetTime.value*60;
     lbTagetInterval = inputLbTargetInterval.value;
+
+    timerSound.volume = inputTimerSoundVolume.value;
     
 }
 //--------------------initial setting
