@@ -1,3 +1,7 @@
+const inputPmTargetTime = document.getElementById("pmTargetTime");   
+const inputSbTargetTime = document.getElementById("sbTargetTime");   
+const inputLbTargetTime = document.getElementById("lbTargetTime"); 
+
 const timerSound = new Audio('kitchen_timer1.mp3');
 timerSound.volume = 0.4;
 
@@ -8,21 +12,14 @@ const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 const resetButton = document.getElementById("resetButton");
 
-const HTMLAlermTargetTime = document.getElementById("alermTargetTime");
-
-const scaduleTitle = document.getElementById("scaduleTitle");
-const scadulePm = document.getElementById("scadulePm");
-const scaduleMemo = document.getElementById("scaduleMemo");
-
-const addButton = document.getElementById("addButton");
-const scaduleTableBody = document.getElementById("scaduleTableBody");
+const inputAlermTargetTime = document.getElementById("alermTargetTime");
 
 //---------------------
 
-let alermTargetTime = HTMLAlermTargetTime.value;
-let pmTargetTime = document.getElementById("pmTargetTime").value*60;   //ポモドーロタイマーの時間
-let sbTargetTime = document.getElementById("sbTargetTime").value*60;   //ShortBreakの時間
-let lbTargetTime = document.getElementById("lbTargetTime").value*60;   //LongBreakの時間
+let alermTargetTime = 0 //inputAlermTargetTime.value;
+let pmTargetTime = inputPmTargetTime.value*60;   //ポモドーロタイマーの時間
+let sbTargetTime = inputSbTargetTime.value*60;   //ShortBreakの時間
+let lbTargetTime = inputLbTargetTime.value*60;   //LongBreakの時間
 const pmTagetCount = 4;   //lbまでのpm回数
 
 let thisTime = 0; //現在動作中のタイマーの時間
@@ -83,7 +80,11 @@ const alerm = () => {
 
 startButton.addEventListener('click', ()=>{startOrStop=1}, false);
 stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
-resetButton.addEventListener('click', ()=>{reset(0);}, false);
-HTMLAlermTargetTime.addEventListener('input', ()=>{alermTargetTime = HTMLAlermTargetTime.value;});
+resetButton.addEventListener('click', ()=>{reset(0)}, false);
+inputAlermTargetTime.addEventListener('input', ()=>{alermTargetTime = inputAlermTargetTime.value}, false);
+inputPmTargetTime.addEventListener('input', ()=>{pmTargetTime = inputPmTargetTime.value*60}, false);
+inputSbTargetTime.addEventListener('input', ()=>{sbTargetTime = inputSbTargetTime.value*60}, false);
+inputLbTargetTime.addEventListener('input', ()=>{lbTargetTime = inputLbTargetTime.value*60}, false);
+
 setInterval(count, 1000);
 setInterval(alerm, 1000);
