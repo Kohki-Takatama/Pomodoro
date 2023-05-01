@@ -1,17 +1,22 @@
-「シンプル」ポモドーロタイマーを作るために
+To make "Simple" Pomodoro Timer
 --
-- 時間設定機能は必要？削ったほうが良い？ - 設定画面にならあってもいいかな
-- タスク入力機能はいらない。タスクは手元管理。
-- 今日こなしたpm量だけはわかるようにする
+- Does it need a time setting function? or should it be removed?
+    - It need the function, and the function should be in "setting tab"
+- It doesn't need "task management function".
+- It display "achieved time". It shouldn't be eliminated. 
 
-やること
+Todo
 --
 - CSS
-    1. tab (設定画面 / Timer画面)
-    1. 各装飾
-- Webアプリ|chromeEx|webサイト|スマホアプリ どれかにする。
-- 設定の保存（引継ぎ）→jsonファイル
+    1. tab (Setting / Timer&Achievement)
+    1. decoration
+- Publish as... Web app / chromeEx / desktop app / smartphone app
+- Save settings: .json
+- change TodoList language
+    - If I feel it interferes with my work.
 
-いずれやるかもしれない、たぶんやらないこと
+What I probably won't to do
 --
-- リセットを「pm回数」「時間」等々で分けるべき？
+- reset function subdivision
+    - pomodoro count
+    - Timer only
