@@ -32,36 +32,43 @@ const timerSoundPlay = () => {
     timerSound.play();
 }
 
-const timer = (targetTime) => {
-    if(thisTime <= 0) {thisTime = targetTime}  //時間設定
-
+const runTimer = (targetTime) => {
+    if(thisTime <= 0) { //時間設定
+        thisTime = targetTime
+    } 
     thisTime -= 1;
     dispTimerCount.innerHTML=String(Math.floor(thisTime/60)).padStart(2,"0") + ":" + String(thisTime%60).padStart(2,"0");
-
     if(thisTime <= 0) { //タイマー終了時の処理
-        if(pmOrNot) {pmCount = (pmCount+1)%pmTagetCount}
+        if(pmOrNot) {
+            pmCount = (pmCount+1)%pmTagetCount
+        }
         pmOrNot = (pmOrNot+1)%2 //pmとbreakの切り替え
         timerSoundPlay();
     }
 }
-const count = () => {
+
+const judgeTimerType = () => {
     if(startOrStop) {
         if(pmOrNot) {
-            timer(pmTargetTime);
+            runTimer(pmTargetTime);
             dispTimerStatus.innerHTML="pm";
         } else if(pmCount) {
-            timer(sbTargetTime);
+            runTimer(sbTargetTime);
             dispTimerStatus.innerHTML="sb";
         } else {
-            timer(lbTargetTime);
+            runTimer(lbTargetTime);
             dispTimerStatus.innerHTML="lb";
         }
     }
 }
 
-const reset = (startOrStopParameter) => {
+const resetTimerAndCount = (startOrStopParameter) => {
     startOrStop = startOrStopParameter;
-    pmOrNot=1;thisTime=0;pmCount=0;timer(pmTargetTime);dispTimerStatus.innerHTML="pm";
+    pmOrNot=1;
+    thisTime=0;
+    pmCount=0;
+    runTimer(pmTargetTime);
+    dispTimerStatus.innerHTML="pm";
 }
 
 const alerm = () => {
@@ -70,7 +77,7 @@ const alerm = () => {
     
     if(nowTime === alermTargetTime) {
         timerSoundPlay();
-        reset(1);
+        resetTimerAndCount(1);
         alermTargetTime=0;
     }
     //予定時刻を取得
@@ -80,11 +87,11 @@ const alerm = () => {
 
 startButton.addEventListener('click', ()=>{startOrStop=1}, false);
 stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
-resetButton.addEventListener('click', ()=>{reset(0)}, false);
+resetButton.addEventListener('click', ()=>{resetTimerAndCount(0)}, false);
 inputAlermTargetTime.addEventListener('input', ()=>{alermTargetTime = inputAlermTargetTime.value}, false);
 inputPmTargetTime.addEventListener('input', ()=>{pmTargetTime = inputPmTargetTime.value*60}, false);
 inputSbTargetTime.addEventListener('input', ()=>{sbTargetTime = inputSbTargetTime.value*60}, false);
 inputLbTargetTime.addEventListener('input', ()=>{lbTargetTime = inputLbTargetTime.value*60}, false);
 
-setInterval(count, 1000);
+setInterval(judgeTimerType, 1000);
 setInterval(alerm, 1000);
