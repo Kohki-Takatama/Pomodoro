@@ -6,22 +6,31 @@
     <link rel="stylesheet" href="main.css" type="text/css">
 </head>
 <body>
-    pm: <input type="number" id="pmTargetTime" value="25" style="width: 30px;"> min
-    sb: <input type="number" id="sbTargetTime" value="5" style="width: 30px;"> min
-    lb: <input type="number" id="lbTargetTime" value="15" style="width: 30px;"> min
-    lb interval: <input type="number" id="lbTargetInterval" value="4" style="width: 30px;">
-    <p>
+    <label for="TargetTimeList">Time (min)</label>
+    <div id="TargetTimeList">
+        <label for="pmTargetTime">Pomodoro</label>
+        <input type="number" id="pmTargetTime" value="25" style="width: 30px;">
+        <label for="sbTargetTime">Short Break</label>
+        <input type="number" id="sbTargetTime" value="5" style="width: 30px;">
+        <label for="lbTargetTime">Long Break</label>
+        <input type="number" id="lbTargetTime" value="15" style="width: 30px;">
+    </div>
+    <div>
+        <label for="lbTargetInterval">Long Break interval</label>
+        <input type="number" id="lbTargetInterval" value="4" style="width: 30px;">
+    </div>
+    <div>
       <span id="dispTimerStatus">pm</span>
       <span id="dispTimerCount">00:00</span>
-    </p>
-    <p>
+    </div>
+    <div>
         <input type="button" value="Start" id="startButton">
         <input type="button" value="Stop" id="stopButton">
         <input type="button" value="Reset" id="resetButton">
-    </p>
-    <p>
+    </div>
+    <div>
         <label for="alermTargetTime">Alerm</label>
         <input type="time" id="alermTargetTime" value="08:30">
-    </p>
+    </div>
     <script src='content.js'></script>
 </body>
