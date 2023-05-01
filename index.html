@@ -10,8 +10,8 @@
     sb: <input type="number" id="sbTargetTime" value="3" style="width: 30px;"> min
     lb: <input type="number" id="lbTargetTime" value="13" style="width: 30px;"> min
     <p>
-      <span id="HTMLStatus">pm</span>
-      <span id="HTMLTimer">00:00</span>
+      <span id="dispTimerStatus">pm</span>
+      <span id="dispTimerCount">00:00</span>
     </p>
     <p>
         <input type="button" value="Start" id="startButton">
@@ -22,28 +22,5 @@
         <label for="alermTargetTime">Alerm</label>
         <input type="time" id="alermTargetTime" value="08:30">
     </p>
-    <p>
-        Title: <input type="text" id="scaduleTitle">
-        予定pm: <input type="number" min="1" max="8" value="2" id="scadulePm">
-        <p>
-            <label for="scaduleMemo">Memo:</label>
-            <textarea id="scaduleMemo" rows="5" cols="33"></textarea>
-        </p>
-    </p>
-    <p>
-        <input type="button" id="addButton" value="Add Scadule">
-    </p>
-    <p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Delete</th>
-                    <th>Title</th>
-                    <th>Done</th>
-                    <th>Scaduled</th>
-                    <th>Memo</th>
-            </thead>
-            <tbody id="scaduleTableBody"></tbody>
-        </table>
     <script src='content.js'></script>
 </body>
