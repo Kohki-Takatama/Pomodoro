@@ -26,17 +26,17 @@ timerSound.volume = inputTimerSoundVolume.value;
 //---------------------let
 
 let alermTargetTime = 0 //inputAlermTargetTime.value;
-let pmTargetTime = inputPmTargetTime.value*60;   //ポモドーロタイマーの時間
-let sbTargetTime = inputSbTargetTime.value*60;   //ShortBreakの時間
-let lbTargetTime = inputLbTargetTime.value*60;   //LongBreakの時間
-let lbTagetCount = inputLbTargetInterval.value;   //lbまでのpm回数
+let pmTargetTime = 0;   //ポモドーロタイマーの時間
+let sbTargetTime = 0;   //ShortBreakの時間
+let lbTargetTime = 0;   //LongBreakの時間
+let lbTagetInterval = 0;   //lbまでのpm回数
 
 let thisTime = 0; //現在動作中のタイマーの時間
 let pmOrNot = 1; //true=pm felse=sb/lb
 let pmCount = 0;  //lbまでのpmカウント
 let startOrStop = 0; //タイマーが動いているか
 
-//--------------------functions (parts type)
+//--------------------functions
 
 const timerSoundPlay = () => {
     timerSound.currentTime = 12;
@@ -59,8 +59,6 @@ const runTimer = (targetTime) => {
         timerSoundPlay();
     }
 }
-
-//-------------------functions (event type)
 
 const judgeTimerType = () => {
     if(startOrStop) {
@@ -100,7 +98,25 @@ const alerm = () => {
     //現在時刻＝予定時刻になったら音を再生。
 }
 
+const setValueAndSaveJson = (targetVar, targetElement) => {
+    //JSON.stringify()
+}
+
+const readJsonAndSetValue = () => {
+    const jsonValue = {pmTargetTime:25, sbTargetTime:5, lbTargetTime:15, lbTargetInterval:4}//JSON.parse()
+    inputPmTargetTime.value = jsonValue.pmTargetTime;
+    inputSbTargetTime.value = jsonValue.sbTargetTime;
+    inputLbTargetTime.value = jsonValue.lbTargetTime;
+    inputLbTargetInterval.value = jsonValue.lbTargetInterval;
+    pmTargetTime = inputPmTargetTime.value*60;
+    sbTargetTime = inputSbTargetTime.value*60;
+    lbTargetTime = inputLbTargetTime.value*60;
+    lbTagetInterval = inputLbTargetInterval.value;
+    
+}
 //--------------------initial setting
+
+readJsonAndSetValue();
 
 startButton.addEventListener('click', ()=>{startOrStop=1}, false);
 stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
