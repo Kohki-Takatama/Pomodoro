@@ -30,9 +30,10 @@ let globalModel = {
         pmTargetTime:0,     //ポモドーロタイマーの時間
         sbTargetTime:0,     //ShortBreakの時間
         lbTargetTime:0,     //LongBreakの時間
-        lbTargetInterval:0,  //lbまでのpm回数
+        lbTargetInterval:0, //lbまでのpm回数
 
         thisTime:0,         //現在動作中のタイマーの時間
+        thisPm:0,           //現在動作中のpmTime※ただしbreakタイミングでも更新される
         pmOrNot:1,          //true=pm felse=sb/lb
         pmCount:0,          //lbまでのpmカウント
         startOrStop:0       //タイマーが動いているか
@@ -51,15 +52,20 @@ const timerSoundPlay = () => {
 
 const runTimer = (targetTime) => {
     if(globalModel.thisTime <= 0) { //時間設定
-        globalModel.thisTime = targetTime
+        globalModel.thisTime = targetTime;
+        globalModel.thisPm = globalModel.pmTargetTime;
     } 
     globalModel.thisTime -= 1;
     dispTimerCount.innerHTML=String(Math.floor(globalModel.thisTime/60)).padStart(2,"0") + ":" + String(globalModel.thisTime%60).padStart(2,"0");
     if(globalModel.thisTime <= 0) { //タイマー終了時の処理
         if(globalModel.pmOrNot) {
-            globalModel.pmCount = (globalModel.pmCount+1)%globalModel.lbTargetInterval
+            globalModel.pmCount += 1;
             donePmCount.innerHTML=Number(donePmCount.innerHTML) + 1;
-            doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + globalModel.pmTargetTime/60;
+            doneMinCount.innerHTML=Math.floor(Number(doneMinCount.innerHTML) + globalModel.thisPm/60);
+        }
+        if(globalModel.pmCount >= globalModel.lbTargetInterval) {
+            globalModel.pmCount = 0;
+            globalModel.pmOrNot = 1;
         }
         globalModel.pmOrNot = (globalModel.pmOrNot+1)%2 //pmとbreakの切り替え
         timerSoundPlay();
@@ -82,12 +88,11 @@ const judgeTimerType = () => {
 }
 
 const resetTimerAndCount = (startOrStopParameter) => {
-    globalModel.startOrStop = startOrStopParameter;
     globalModel.pmOrNot=1;
     globalModel.thisTime=0;
     globalModel.pmCount=0;
-    runTimer(globalModel.pmTargetTime);
-    dispTimerStatus.innerHTML="pm";
+    judgeTimerType();
+    globalModel.startOrStop = startOrStopParameter;
 }
 
 const alerm = () => {
