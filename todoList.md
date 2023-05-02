@@ -11,7 +11,6 @@ Todo
     1. tab (Setting / Timer&Achievement)
     1. Decoration
 - Publish as... Web App / Desktop App / Smartphone App
-- Save settings as **"localStorage"**
 
 What I probably won't to do
 --

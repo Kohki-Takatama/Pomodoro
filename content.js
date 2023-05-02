@@ -11,6 +11,8 @@ const resetButton = document.getElementById("resetButton");
 
 const inputAlermTargetTime = document.getElementById("alermTargetTime");
 
+const input = document.querySelectorAll(".input");
+
 const inputPmTargetTime = document.getElementById("pmTargetTime");   
 const inputSbTargetTime = document.getElementById("sbTargetTime");   
 const inputLbTargetTime = document.getElementById("lbTargetTime"); 
@@ -37,6 +39,10 @@ let startOrStop = 0; //タイマーが動いているか
 
 //--------------------functions
 
+const log = (content) => {
+    console.log(content);
+}
+
 const timerSoundPlay = () => {
     timerSound.currentTime = 12;
     timerSound.play();
@@ -52,7 +58,7 @@ const runTimer = (targetTime) => {
         if(pmOrNot) {
             pmCount = (pmCount+1)%lbTagetCount
             donePmCount.innerHTML=Number(donePmCount.innerHTML) + 1;
-            doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + pmTargetTime/60;
+            doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + Number(inputPmTargetTime.value);
         }
         pmOrNot = (pmOrNot+1)%2 //pmとbreakの切り替え
         timerSoundPlay();
@@ -60,6 +66,7 @@ const runTimer = (targetTime) => {
 }
 
 const judgeTimerType = () => {
+    log(pmTargetTime)
     if(startOrStop) {
         if(pmOrNot) {
             runTimer(pmTargetTime);
@@ -97,36 +104,47 @@ const alerm = () => {
     //現在時刻＝予定時刻になったら音を再生。
 }
 
-const setValueAndSaveLocalStorage = (targetElement) => { 
-    /*
-    json.targetVar ができるかどうかでだいぶ変わる。たぶんできない。
-    */
-    let jsonValue = JSON.parse();
-    switch(targetElement) {
-        case inputPmTargetTime:
-            jsonValue.pmTargetTime = inputPmTargetTime.value;
+const setValueAndSaveLocalStorage = (e) => { 
+    log(`Changed: ${e.target.id}`)
+    const saveChangedValue = (variable, multiple) => {
+        log(variable)
+        variable = e.target.value * (multiple ? multiple : 1);
+        log(variable)
+        localStorage.setItem(e.target.id, e.target.value)
+    }
+    switch(e.target.id) {
+        case 'pmTargetTime':
+            saveChangedValue(pmTargetTime, 60);
             break;
-        case inputSbTargetTime:
+        case 'sbTargetTime':
+            saveChangedValue(sbTargetTime, 60);
             break;
-        case inputLbTargetTime:
+        case 'lbTargetTime':
+            saveChangedValue(lbTargetTime, 60);
             break;
-        case inputLbTargetInterval:
+        case 'lbTagetInterval':
+            saveChangedValue(lbTagetInterval);
             break;
-        case inputTimerSoundVolume:
+        case 'timerSoundVolume':
+            saveChangedValue(timerSound.volume);
+            break;
+        case 'alermTargetTime':
+            saveChangedValue(alermTargetTime);
+            break;
+        default:
+            log('don\'t match any case')
             break;
     }
-    JSON.stringify()
 }
 
 const readLocalStorageAndSetValue = () => {
-    const jsonValue = {pmTargetTime:25, sbTargetTime:5, lbTargetTime:15, lbTargetInterval:4, TimerSoundVolume:0.4}//JSON.parse()
-    //----------------json to element
-    inputPmTargetTime.value = jsonValue.pmTargetTime;
-    inputSbTargetTime.value = jsonValue.sbTargetTime;
-    inputLbTargetTime.value = jsonValue.lbTargetTime;
-    inputLbTargetInterval.value = jsonValue.lbTargetInterval;
+    //----------------localStorage to element
+    inputPmTargetTime.value = localStorage.getItem('pmTargetTime');
+    inputSbTargetTime.value = localStorage.getItem('sbTargetTime');
+    inputLbTargetTime.value = localStorage.getItem('lbTargetTime');
+    inputLbTargetInterval.value = localStorage.getItem('lbTargetInterval');
 
-    inputTimerSoundVolume.value = jsonValue.TimerSoundVolume;
+    inputTimerSoundVolume.value = localStorage.getItem('timerSoundVolume');
     //----------------element to var
     pmTargetTime = inputPmTargetTime.value*60;
     sbTargetTime = inputSbTargetTime.value*60;
@@ -134,23 +152,21 @@ const readLocalStorageAndSetValue = () => {
     lbTagetInterval = inputLbTargetInterval.value;
 
     timerSound.volume = inputTimerSoundVolume.value;
-    
 }
 
 //--------------------initial setting
-
-readJsonAndSetValue();
+readLocalStorageAndSetValue();
 
 startButton.addEventListener('click', ()=>{startOrStop=1}, false);
 stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
 resetButton.addEventListener('click', ()=>{resetTimerAndCount(0)}, false);
 
-inputAlermTargetTime.addEventListener('input', ()=>{alermTargetTime = inputAlermTargetTime.value}, false);
-inputPmTargetTime.addEventListener('input', ()=>{pmTargetTime = inputPmTargetTime.value*60}, false);
-inputSbTargetTime.addEventListener('input', ()=>{sbTargetTime = inputSbTargetTime.value*60}, false);
-inputLbTargetTime.addEventListener('input', ()=>{lbTargetTime = inputLbTargetTime.value*60}, false);
-inputLbTargetInterval.addEventListener('input', ()=>{lbTagetCount = inputLbTargetInterval.value}, false);
-inputTimerSoundVolume.addEventListener('input', ()=>{timerSound.volume = inputTimerSoundVolume.value}, false);
+for(let element of input) {
+    element.addEventListener('change', (e)=>{setValueAndSaveLocalStorage(e)}, false);
+}
 
 setInterval(judgeTimerType, 1000);
 setInterval(alerm, 1000);
+
+//-------------------test
+const test = document.getElementById("test");

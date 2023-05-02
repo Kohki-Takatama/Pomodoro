@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="main.css" type="text/css">
 </head>
 <body>
+    <input type="number" id="test" class="input">
     <label for="timerStatus">Status</label>
     <div id="timerStatus">
         <span id="dispTimerStatus">pm</span>
@@ -25,26 +26,26 @@
 
     <div>
         <label for="alermTargetTime">Alerm</label>
-        <input type="time" id="alermTargetTime" value="08:30">
+        <input type="time" id="alermTargetTime" value="08:30" class="input">
     </div>
 
     <label for="TargetTimeList">Time (min)</label>
     <div id="TargetTimeList">
         <label for="pmTargetTime">Pomodoro</label>
-        <input type="number" id="pmTargetTime" style="width: 30px;">
+        <input type="number" id="pmTargetTime" style="width: 30px;" class="input">
         <label for="sbTargetTime">Short Break</label>
-        <input type="number" id="sbTargetTime" style="width: 30px;">
+        <input type="number" id="sbTargetTime" style="width: 30px;" class="input">
         <label for="lbTargetTime">Long Break</label>
-        <input type="number" id="lbTargetTime" style="width: 30px;">
+        <input type="number" id="lbTargetTime" style="width: 30px;" class="input">
     </div>
 
     <div>
         <label for="lbTargetInterval">Long Break interval</label>
-        <input type="number" id="lbTargetInterval" style="width: 30px;">
+        <input type="number" id="lbTargetInterval" style="width: 30px;" class="input">
     </div>
 
     <label for="timerSoundVolume">Volume</label>
-    <input type="range" id="timerSoundVolume" value="0.1" min="0.1" max="1" step="0.1">
+    <input type="range" id="timerSoundVolume" value="0.1" min="0.1" max="1" step="0.1" class="input">
 
     <script src='content.js'></script>
 
