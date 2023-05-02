@@ -5,8 +5,7 @@ const dispTimerStatus = document.getElementById("dispTimerStatus");
 const donePmCount = document.getElementById("donePmCount");
 const doneMinCount = document.getElementById("doneMinCount");
 
-const startButton = document.getElementById("startButton");
-const stopButton = document.getElementById("stopButton");
+const startStopButton = document.getElementById("startStopButton");
 const resetButton = document.getElementById("resetButton");
 
 const inputAlermTargetTime = document.getElementById("alermTargetTime");
@@ -107,30 +106,28 @@ const alerm = () => {
 
 const setValueAndSaveLocalStorage = (e) => { 
     log(`Changed: ${e.target.id}`)
+    const saveChangedValue = (multiple) => {
+        localStorage.setItem(e.target.id, e.target.value);
+        return e.target.value * (multiple ? multiple : 1);
+    }
     switch(e.target.id) {
         case 'pmTargetTime':
-            globalModel.pmTargetTime = e.target.value * 60;
-            localStorage.setItem(e.target.id, e.target.value);
+            globalModel.pmTargetTime = saveChangedValue(60);
             break;
         case 'sbTargetTime':
-            globalModel.sbTargetTime = e.target.value * 60;
-            localStorage.setItem(e.target.id, e.target.value);
+            globalModel.sbTargetTime = saveChangedValue(60);
             break;
         case 'lbTargetTime':
-            globalModel.lbTargetTime = e.target.value * 60;
-            localStorage.setItem(e.target.id, e.target.value);
+            globalModel.lbTargetTime = saveChangedValue(60);
             break;
         case 'lbTargetInterval':
-            globalModel.lbTargetInterval = e.target.value;
-            localStorage.setItem(e.target.id, e.target.value);
+            globalModel.lbTargetInterval = saveChangedValue();
             break;
         case 'timerSoundVolume':
-            timerSound.volume = e.target.value;
-            localStorage.setItem(e.target.id, e.target.value);
+            timerSound.volume = saveChangedValue();
             break;
         case 'alermTargetTime':
-            globalModel.alermTargetTime = e.target.value;
-            localStorage.setItem(e.target.id, e.target.value);
+            globalModel.alermTargetTime = saveChangedValue();
             break;
         default:
             log('don\'t match any case')
@@ -158,8 +155,7 @@ const readLocalStorageAndSetValue = () => {
 //--------------------initial setting
 readLocalStorageAndSetValue();
 
-startButton.addEventListener('click', ()=>{globalModel.startOrStop=1}, false);
-stopButton.addEventListener('click', ()=>{globalModel.startOrStop=0}, false);
+startStopButton.addEventListener('click', ()=>{globalModel.startOrStop = (globalModel.startOrStop+1)%2}, false);
 resetButton.addEventListener('click', ()=>{resetTimerAndCount(0)}, false);
 
 for(let element of input) {
