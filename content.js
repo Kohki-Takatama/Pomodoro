@@ -97,13 +97,14 @@ const alerm = () => {
     //現在時刻＝予定時刻になったら音を再生。
 }
 
-const setValueAndSaveJson = (targetElement) => { 
+const setValueAndSaveLocalStorage = (targetElement) => { 
     /*
     json.targetVar ができるかどうかでだいぶ変わる。たぶんできない。
     */
     let jsonValue = JSON.parse();
     switch(targetElement) {
         case inputPmTargetTime:
+            jsonValue.pmTargetTime = inputPmTargetTime.value;
             break;
         case inputSbTargetTime:
             break;
@@ -117,7 +118,7 @@ const setValueAndSaveJson = (targetElement) => {
     JSON.stringify()
 }
 
-const readJsonAndSetValue = () => {
+const readLocalStorageAndSetValue = () => {
     const jsonValue = {pmTargetTime:25, sbTargetTime:5, lbTargetTime:15, lbTargetInterval:4, TimerSoundVolume:0.4}//JSON.parse()
     //----------------json to element
     inputPmTargetTime.value = jsonValue.pmTargetTime;
@@ -135,6 +136,7 @@ const readJsonAndSetValue = () => {
     timerSound.volume = inputTimerSoundVolume.value;
     
 }
+
 //--------------------initial setting
 
 readJsonAndSetValue();
