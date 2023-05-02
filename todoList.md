@@ -11,6 +11,12 @@ Todo
     1. tab (Setting / Timer&Achievement)
     1. Decoration
 - Publish as... Web App / Desktop App / Smartphone App
+- Bug fix
+    - "doneMinCount" follow changing pmInput
+    - lb Interval
+        - case: don't need lb
+        - input type="select" is better
+        - follow changing input *ex) input 4to2 / done 3*
 
 What I probably won't to do
 --
