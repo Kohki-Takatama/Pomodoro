@@ -58,7 +58,7 @@ const runTimer = (targetTime) => {
     dispTimerCount.innerHTML=String(Math.floor(globalModel.thisTime/60)).padStart(2,"0") + ":" + String(globalModel.thisTime%60).padStart(2,"0");
     if(globalModel.thisTime <= 0) { //タイマー終了時の処理
         if(globalModel.pmOrNot) {
-            globalModel.pmCount = (globalModel.pmCount+1)%lbTargetCount
+            globalModel.pmCount = (globalModel.pmCount+1)%globalModel.lbTargetInterval
             donePmCount.innerHTML=Number(donePmCount.innerHTML) + 1;
             doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + globalModel.pmTargetTime/60;
         }
@@ -125,7 +125,6 @@ const setValueAndSaveLocalStorage = (e) => {
             localStorage.setItem(e.target.id, e.target.value);
             break;
         case 'timerSoundVolume':
-            saveChangedValue(timerSound.volume);
             timerSound.volume = e.target.value;
             localStorage.setItem(e.target.id, e.target.value);
             break;
