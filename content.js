@@ -24,18 +24,20 @@ const inputTimerSoundVolume = document.getElementById("timerSoundVolume");
 
 const timerSound = new Audio('kitchen_timer1.mp3');
 
-//---------------------let
+//---------------------Global Model
 
-let alermTargetTime = 0 //inputAlermTargetTime.value;
-let pmTargetTime = 0;   //ポモドーロタイマーの時間
-let sbTargetTime = 0;   //ShortBreakの時間
-let lbTargetTime = 0;   //LongBreakの時間
-let lbTagetInterval = 0;   //lbまでのpm回数
+let globalModel = {
+        alermTargetTime:0, 
+        pmTargetTime:0,     //ポモドーロタイマーの時間
+        sbTargetTime:0,     //ShortBreakの時間
+        lbTargetTime:0,     //LongBreakの時間
+        lbTargetInterval:0,  //lbまでのpm回数
 
-let thisTime = 0; //現在動作中のタイマーの時間
-let pmOrNot = 1; //true=pm felse=sb/lb
-let pmCount = 0;  //lbまでのpmカウント
-let startOrStop = 0; //タイマーが動いているか
+        thisTime:0,         //現在動作中のタイマーの時間
+        pmOrNot:1,          //true=pm felse=sb/lb
+        pmCount:0,          //lbまでのpmカウント
+        startOrStop:0       //タイマーが動いているか
+    }
 
 //--------------------functions
 
@@ -49,44 +51,43 @@ const timerSoundPlay = () => {
 }
 
 const runTimer = (targetTime) => {
-    if(thisTime <= 0) { //時間設定
-        thisTime = targetTime
+    if(globalModel.thisTime <= 0) { //時間設定
+        globalModel.thisTime = targetTime
     } 
-    thisTime -= 1;
-    dispTimerCount.innerHTML=String(Math.floor(thisTime/60)).padStart(2,"0") + ":" + String(thisTime%60).padStart(2,"0");
-    if(thisTime <= 0) { //タイマー終了時の処理
-        if(pmOrNot) {
-            pmCount = (pmCount+1)%lbTagetCount
+    globalModel.thisTime -= 1;
+    dispTimerCount.innerHTML=String(Math.floor(globalModel.thisTime/60)).padStart(2,"0") + ":" + String(globalModel.thisTime%60).padStart(2,"0");
+    if(globalModel.thisTime <= 0) { //タイマー終了時の処理
+        if(globalModel.pmOrNot) {
+            globalModel.pmCount = (globalModel.pmCount+1)%lbTargetCount
             donePmCount.innerHTML=Number(donePmCount.innerHTML) + 1;
-            doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + Number(inputPmTargetTime.value);
+            doneMinCount.innerHTML=Number(doneMinCount.innerHTML) + globalModel.pmTargetTime/60;
         }
-        pmOrNot = (pmOrNot+1)%2 //pmとbreakの切り替え
+        globalModel.pmOrNot = (globalModel.pmOrNot+1)%2 //pmとbreakの切り替え
         timerSoundPlay();
     }
 }
 
 const judgeTimerType = () => {
-    log(pmTargetTime)
-    if(startOrStop) {
-        if(pmOrNot) {
-            runTimer(pmTargetTime);
+    if(globalModel.startOrStop) {
+        if(globalModel.pmOrNot) {
+            runTimer(globalModel.pmTargetTime);
             dispTimerStatus.innerHTML="pm";
-        } else if(pmCount) {
-            runTimer(sbTargetTime);
+        } else if(globalModel.pmCount) {
+            runTimer(globalModel.sbTargetTime);
             dispTimerStatus.innerHTML="sb";
         } else {
-            runTimer(lbTargetTime);
+            runTimer(globalModel.lbTargetTime);
             dispTimerStatus.innerHTML="lb";
         }
     }
 }
 
 const resetTimerAndCount = (startOrStopParameter) => {
-    startOrStop = startOrStopParameter;
-    pmOrNot=1;
-    thisTime=0;
-    pmCount=0;
-    runTimer(pmTargetTime);
+    globalModel.startOrStop = startOrStopParameter;
+    globalModel.pmOrNot=1;
+    globalModel.thisTime=0;
+    globalModel.pmCount=0;
+    runTimer(globalModel.pmTargetTime);
     dispTimerStatus.innerHTML="pm";
 }
 
@@ -94,10 +95,10 @@ const alerm = () => {
     let nowTime = new Date();
     nowTime = String(nowTime.getHours()).padStart(2,"0")+":"+String(nowTime.getMinutes()).padStart(2,"0");
     
-    if(nowTime === alermTargetTime) {
+    if(nowTime === globalModel.alermTargetTime) {
         timerSoundPlay();
         resetTimerAndCount(1);
-        alermTargetTime=0;
+        globalModel.alermTargetTime=0;
     }
     //予定時刻を取得
     //現在時刻を取得
@@ -106,30 +107,31 @@ const alerm = () => {
 
 const setValueAndSaveLocalStorage = (e) => { 
     log(`Changed: ${e.target.id}`)
-    const saveChangedValue = (variable, multiple) => {
-        log(variable)
-        variable = e.target.value * (multiple ? multiple : 1);
-        log(variable)
-        localStorage.setItem(e.target.id, e.target.value)
-    }
     switch(e.target.id) {
         case 'pmTargetTime':
-            saveChangedValue(pmTargetTime, 60);
+            globalModel.pmTargetTime = e.target.value * 60;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
         case 'sbTargetTime':
-            saveChangedValue(sbTargetTime, 60);
+            globalModel.sbTargetTime = e.target.value * 60;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
         case 'lbTargetTime':
-            saveChangedValue(lbTargetTime, 60);
+            globalModel.lbTargetTime = e.target.value * 60;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
-        case 'lbTagetInterval':
-            saveChangedValue(lbTagetInterval);
+        case 'lbTargetInterval':
+            globalModel.lbTargetInterval = e.target.value;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
         case 'timerSoundVolume':
             saveChangedValue(timerSound.volume);
+            timerSound.volume = e.target.value;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
         case 'alermTargetTime':
-            saveChangedValue(alermTargetTime);
+            globalModel.alermTargetTime = e.target.value;
+            localStorage.setItem(e.target.id, e.target.value);
             break;
         default:
             log('don\'t match any case')
@@ -146,10 +148,10 @@ const readLocalStorageAndSetValue = () => {
 
     inputTimerSoundVolume.value = localStorage.getItem('timerSoundVolume');
     //----------------element to var
-    pmTargetTime = inputPmTargetTime.value*60;
-    sbTargetTime = inputSbTargetTime.value*60;
-    lbTargetTime = inputLbTargetTime.value*60;
-    lbTagetInterval = inputLbTargetInterval.value;
+    globalModel.pmTargetTime = inputPmTargetTime.value*60;
+    globalModel.sbTargetTime = inputSbTargetTime.value*60;
+    globalModel.lbTargetTime = inputLbTargetTime.value*60;
+    globalModel.lbTargetInterval = inputLbTargetInterval.value;
 
     timerSound.volume = inputTimerSoundVolume.value;
 }
@@ -157,8 +159,8 @@ const readLocalStorageAndSetValue = () => {
 //--------------------initial setting
 readLocalStorageAndSetValue();
 
-startButton.addEventListener('click', ()=>{startOrStop=1}, false);
-stopButton.addEventListener('click', ()=>{startOrStop=0}, false);
+startButton.addEventListener('click', ()=>{globalModel.startOrStop=1}, false);
+stopButton.addEventListener('click', ()=>{globalModel.startOrStop=0}, false);
 resetButton.addEventListener('click', ()=>{resetTimerAndCount(0)}, false);
 
 for(let element of input) {
