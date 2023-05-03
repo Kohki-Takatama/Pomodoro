@@ -15,6 +15,9 @@ Todo
     - lb Interval
         - case: don't need lb
         - input type="select" is better
+- Reset by reload?
+- DonePm localSrotage
+- thisTime localSrotage
 
 What I probably won't to do
 --
