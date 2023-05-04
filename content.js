@@ -95,6 +95,7 @@ const resetTimerAndCount = (startOrStopParameter) => {
     globalModel.pmOrNot=1;
     globalModel.thisTime=0;
     globalModel.pmCount=0;
+    globalModel.startOrStop = 1;
     judgeTimerType();
     globalModel.startOrStop = startOrStopParameter;
 }

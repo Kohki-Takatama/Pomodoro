@@ -10,7 +10,6 @@ Todo
 - **CSS**
     1. tab (Setting / Timer&Achievement)
     1. Decoration
-- Publish as... Web App / Desktop App / Smartphone App
 - lb Interval
     - case: don't need lb
     - input type="select" is better
@@ -22,6 +21,8 @@ Todo
 - readLocalAndSetValue
     1. Set local to globalModel by map
     1. make function to set HTML
+- set local when reset
+    - make "save local" funciton
 
 What I probably won't to do
 --
