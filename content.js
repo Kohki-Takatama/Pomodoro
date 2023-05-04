@@ -54,8 +54,10 @@ const runTimer = (targetTime) => {
     if(globalModel.thisTime <= 0) { //時間設定
         globalModel.thisTime = targetTime;
         globalModel.thisPm = globalModel.pmTargetTime;
+        localStorage.setItem('thisPm', globalModel.thisPm);
     } 
     globalModel.thisTime -= 1;
+    localStorage.setItem('thisTime', globalModel.thisTime);
     dispTimerCount.innerHTML=String(Math.floor(globalModel.thisTime/60)).padStart(2,"0") + ":" + String(globalModel.thisTime%60).padStart(2,"0");
     if(globalModel.thisTime <= 0) { //タイマー終了時の処理
         if(globalModel.pmOrNot) {
@@ -68,6 +70,8 @@ const runTimer = (targetTime) => {
             globalModel.pmOrNot = 1;
         }
         globalModel.pmOrNot = (globalModel.pmOrNot+1)%2 //pmとbreakの切り替え
+        localStorage.setItem('pmCount', globalModel.pmCount);
+        localStorage.setItem('pmOrNot', globalModel.pmOrNot);
         timerSoundPlay();
     }
 }
@@ -148,6 +152,7 @@ const readLocalStorageAndSetValue = () => {
     inputLbTargetInterval.value = localStorage.getItem('lbTargetInterval');
 
     inputTimerSoundVolume.value = localStorage.getItem('timerSoundVolume');
+
     //----------------element to var
     globalModel.pmTargetTime = inputPmTargetTime.value*60;
     globalModel.sbTargetTime = inputSbTargetTime.value*60;
@@ -155,6 +160,16 @@ const readLocalStorageAndSetValue = () => {
     globalModel.lbTargetInterval = inputLbTargetInterval.value;
 
     timerSound.volume = inputTimerSoundVolume.value;
+
+    //----------------
+    globalModel.thisTime = localStorage.getItem('thisTime');
+    globalModel.thisPm = localStorage.getItem('thisPm');
+    globalModel.pmOrNot = localStorage.getItem('pmOrNot');
+    globalModel.pmCount = localStorage.getItem('pmOrNot');
+    globalModel.startOrStop = 1;
+    judgeTimerType();
+    globalModel.startOrStop = 0;
+
 }
 
 //--------------------initial setting

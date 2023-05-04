@@ -11,18 +11,19 @@ Todo
     1. tab (Setting / Timer&Achievement)
     1. Decoration
 - Publish as... Web App / Desktop App / Smartphone App
-- Bug fix
-    - lb Interval
-        - case: don't need lb
-        - input type="select" is better
-- Reset by reload?
+- lb Interval
+    - case: don't need lb
+    - input type="select" is better
 - DonePm localSrotage
-- thisTime localSrotage
-
-What I probably won't to do
---
 - reset function subdivision
     - pomodoro count
     - Timer only
+- display "how long to Interval"
+- readLocalAndSetValue
+    1. Set local to globalModel by map
+    1. make function to set HTML
+
+What I probably won't to do
+--
 - Change TodoList language
     - If I feel it interferes with my work.
