@@ -21,8 +21,9 @@ Todo
 - readLocalAndSetValue
     1. Set local to globalModel by map
     1. make function to set HTML
-- set local when reset
-    - make "save local" funciton
+- foundamental change
+    - make "save local" / "read local" funciton
+        - set local when reset
 
 What I probably won't to do
 --
