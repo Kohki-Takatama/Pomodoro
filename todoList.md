@@ -22,6 +22,7 @@ Todo
     1. Set local to globalModel by map
     1. make function to set HTML
 - foundamental change
+    - make "flow image" by [draw.io](https://app.diagrams.net/?src=about#HKohki-Takatama%2FPomodoro%2Fmain%2FpomodoroFlow.drawio)
     - make "save local" / "read local" funciton
         - set local when reset
 
