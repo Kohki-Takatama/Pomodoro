@@ -25,6 +25,7 @@ Todo
     - make "flow image" by [draw.io](https://app.diagrams.net/?src=about#HKohki-Takatama%2FPomodoro%2Fmain%2FpomodoroFlow.drawio)
     - make "save local" / "read local" funciton
         - set local when reset
+- dispInterbalStatus
 
 What I probably won't to do
 --
